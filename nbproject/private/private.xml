@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/structs/Message.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/server/config/ServerConfig.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/client/TextClient.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/server/ServerPeer.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/structs/PrivateMessage.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/server/exceptions/UnknownKeyException.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/client/ClientPeer.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/server/exceptions/InvalidFormatException.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/server/Server.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/structs/Main.java</file>
+            <file>file:/home/toader/Documents/Programare/JavaChatApplication/src/seriac/poo/server/exceptions/MissingKeyException.java</file>
+        </group>
+    </open-files>
+</project-private>
