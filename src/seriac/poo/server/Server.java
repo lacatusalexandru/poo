@@ -15,19 +15,15 @@ import seriac.poo.server.exceptions.UnknownKeyException;
 
 /**
  *
- * @author toader
+ * @author student
  */
 public class Server {
     void main() throws IOException, UnknownKeyException, InvalidFormatException, MissingKeyException{
-        ServerConfig serverConfig = new ServerConfig(); // creeaza obiect de tip ServerConfig
+        ServerConfig serverConfig = new ServerConfig(); 
+        ServerSocket _serverSocket = new ServerSocket(serverConfig.getTcpPort()); 
+        Socket _socket = _serverSocket.accept(); 
         
-        ServerSocket _serverSocket = new ServerSocket(serverConfig.getTcpPort()); // foloseste metoda getTcpPort() al obiectului _serverConfig pentru a deschide un socket de server (ServerSocket)
-        Socket _inputSocket = _serverSocket.accept(); // deschide un socket normal ce accepta conexiuni de la _serverSocket
-       
-        
-        ServerPeer _serverPeerObj = new ServerPeer(_inputSocket); // creeaza obiect de tip ServerPeer si il instantiaza cu socketul de mai sus 
-        
-        _serverPeerObj.run(); // apeleaza metoda run() din ServerPeer. ruleaza pana la EOFException
-    
+        ServerPeer _serverPeerObj = new ServerPeer(_socket); 
+        _serverPeerObj.run(); 
     }
 }

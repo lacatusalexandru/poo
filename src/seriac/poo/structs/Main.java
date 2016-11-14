@@ -21,19 +21,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, UnknownKeyException, InvalidFormatException, MissingKeyException {
-        Message m1 = new Message("John", "Hi!");
-        Message m2 = new Message("Mary", "Hello!");
-        Message m3 = new Message("John", "Bye!");
-        Message m4 = new Message("Mary", "Awww...");
-        
         ServerConfig serverConfig = new ServerConfig();
-        
-        System.out.print(m1.toString());
-        System.out.print(m2);
-        System.out.printf("%s", m3);
-        System.out.println(m4);
-        System.out.print(serverConfig.getTcpPort());
-        System.out.print(serverConfig.getMaxClients());
+
+        System.out.println("server port " +serverConfig.getTcpPort());
+        System.out.println("server clients " + serverConfig.getMaxClients());
     }
     
 }

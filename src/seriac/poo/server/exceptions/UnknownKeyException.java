@@ -7,10 +7,12 @@ package seriac.poo.server.exceptions;
 
 /**
  *
- * @author toader
+ * @author rhobincu
  */
 public class UnknownKeyException extends Exception {
-    public UnknownKeyException(){
-        
+
+    public UnknownKeyException(String message) {
+        super(message);
     }
+    
 }

@@ -6,8 +6,7 @@
 package seriac.poo.client;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -16,31 +15,28 @@ import seriac.poo.structs.PrivateMessage;
 
 /**
  *
- * @author toader
+ * @author student
  */
 public class ClientPeer implements Serializable {
 
-    public final Socket inputSocket;
+    public final Socket socket;
     public final String userName;
     public final String sender = null;
     
     public ClientPeer(String userName, Socket inputSocket){
-        this.userName = userName; //username
-        this.inputSocket = inputSocket; //socket
+        this.userName = userName; 
+        this.socket = inputSocket; 
     }
+    
     
     void sendMessage(String message) throws IOException, UnknownHostException {
         
         try{
         
-        Message messageObj = new Message(sender, message); //instantiere obiect mesaj
-        OutputStream _outputStream = inputSocket.getOutputStream(); // instantiere output stream. folosit pentru a trimite mesajul catre server
-        InputStream _inputStream = inputSocket.getInputStream(); // instantiere input stream. folosit pentru a primi mesajul de la server. neutilizat inca
-        
-        _outputStream.write(messageObj.toString().getBytes()); // trimite textul din messageObj prin metoda toString
-        
-        inputSocket.close(); // inchide socket de retea
-        
+        Message messageObj = new Message(sender, message); 
+        ObjectOutputStream _oOStream = new ObjectOutputStream(socket.getOutputStream());
+        _oOStream.writeObject(messageObj); 
+        socket.close(); 
         } catch(IOException _ioe){
             return;
         }
@@ -52,15 +48,14 @@ public class ClientPeer implements Serializable {
         try{
         
         PrivateMessage privateMessageObj = new PrivateMessage(recipient,sender, message);
-        OutputStream _outputStream = inputSocket.getOutputStream();
-        InputStream _inputStream = inputSocket.getInputStream();
+        ObjectOutputStream _oOStream = new ObjectOutputStream(socket.getOutputStream());
         
-        _outputStream.write(privateMessageObj.toString().getBytes());
         
-        inputSocket.close();
+        _oOStream.writeObject(privateMessageObj);
+        _oOStream.close();
         
         } catch(IOException _ioe){
-            return;
+            System.out.println("test");
         }
     }
 }

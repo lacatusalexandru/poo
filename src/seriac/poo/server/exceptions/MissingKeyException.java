@@ -7,8 +7,12 @@ package seriac.poo.server.exceptions;
 
 /**
  *
- * @author toader
+ * @author rhobincu
  */
 public class MissingKeyException extends Exception {
-    public MissingKeyException(){}
+
+    public MissingKeyException(String message) {
+        super(message);
+    }
+    
 }

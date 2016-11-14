@@ -1,116 +1,65 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seriac.poo.server.config;
- 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import seriac.poo.server.exceptions.InvalidFormatException;
+
 import seriac.poo.server.exceptions.MissingKeyException;
 import seriac.poo.server.exceptions.UnknownKeyException;
- 
-/**
- *
- * @author student
- */
+import seriac.poo.server.exceptions.InvalidFormatException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class ServerConfig {
-    String nameFile;
-    BufferedReader br = null;
-    int[] value;
-    String[] property;
-    int i = 0;
-   
-    int TCP_CHECK = 0;
-    int MAX_CHECK = 0;
-    int TCP_PORT = 0;
-    int MAX_CLIENTS = 0;
-   
-    public ServerConfig(String nameFile) throws IOException, InvalidFormatException, UnknownKeyException, MissingKeyException{
-        this.nameFile = nameFile;
-        FileReader input = new FileReader(nameFile);
-        BufferedReader bufr = new BufferedReader(input);
-       
-        while(bufr.ready() == true){
-            String[] splitValue;
-            String str = bufr.readLine();
-            str = str.trim();
-            if(str.startsWith("#")) continue;
-           
-            if (str.indexOf("=") == -1){
-                throw new InvalidFormatException();
+
+    private int mTcpPort;
+    private int mMaxClients;
+    
+    public ServerConfig(String filename) throws IOException, InvalidFormatException, UnknownKeyException, MissingKeyException{
+        mTcpPort = mMaxClients = -1;
+        
+        FileInputStream fileInputStream = new FileInputStream(filename);
+        Scanner scanner = new Scanner(fileInputStream);
+        
+        while(scanner.hasNext()) {
+            String line = scanner.nextLine().trim();
+            if(line.startsWith("#") || line.isEmpty()) continue;
+            
+            if(!line.matches("[a-zA-Z_][a-zA-Z0-9_]*\\s*=\\s*[0-9]+")) {
+                throw new InvalidFormatException("Linia " + line + " nu se potriveste cu formatul asteptat!");                
             }
-           
-            splitValue = str.split("=");
-            value[i] = Integer.parseInt(splitValue[2]);
-            property[i] = splitValue[1];
-           
-            if(property[i] == "TCP_PORT"){
-                TCP_CHECK = 1;
-                TCP_PORT = Integer.parseInt(property[i]);
-            }
-            else if(property[i] == "MAX_CLIENTS"){
-                MAX_CHECK = 1;
-                MAX_CLIENTS = Integer.parseInt(property[i]);
-            }
-            else{
-                throw new UnknownKeyException();}
-            i++;
-           
+            
+            processLine(line);
         }
-        if(MAX_CHECK != 1 || TCP_CHECK != 1)
-            throw new MissingKeyException();
-    }
-   
-    public ServerConfig() throws UnknownKeyException, InvalidFormatException, IOException, MissingKeyException{
-        this.nameFile = "server.conf";
-        FileReader input = new FileReader(nameFile);
-        BufferedReader bufr = new BufferedReader(input);
-       
-        while(bufr.ready() == true){
-    String[] splitValue;
-            String str = bufr.readLine();
-            str = str.trim();
-            if(str.startsWith("#")) continue;
-           
-            if (str.indexOf("=") == -1){
-                throw new InvalidFormatException();
-            }
-           
-            splitValue = str.split("=");
-            value[i] = Integer.parseInt(splitValue[1]);
-            property[i] = splitValue[0];
-           
-            if(property[i] == "TCP_PORT"){
-                TCP_CHECK = 1;
-                TCP_PORT = Integer.parseInt(property[i]);
-            }
-            else if(property[i] == "MAX_CLIENTS"){
-                MAX_CHECK = 1;
-                MAX_CLIENTS = Integer.parseInt(property[i]);
-            }
-            else{
-                throw new UnknownKeyException();}
-           
-            i++;
-           
+        
+        if(mTcpPort < 0) {
+            throw new MissingKeyException("TCP_PORT lipseste din fisierul de configurare.");
         }
-        if(MAX_CHECK != 1 || TCP_CHECK != 1)
-            throw new MissingKeyException();
+        
+        if(mMaxClients < 0) {
+            throw new MissingKeyException("MAX_CLIENTS lipseste din fisierul de configurare.");
+        }
     }
-   
-    public int getTcpPort(){
-        return TCP_PORT;
+    
+    public ServerConfig() throws IOException, InvalidFormatException, UnknownKeyException, MissingKeyException{
+        this("server.conf");
     }
-   
-    public int getMaxClients(){
-        return MAX_CLIENTS;
+
+    private void processLine(String line) throws UnknownKeyException {
+        String[] words = line.split("=");
+        switch(words[0].trim()) {
+            case "TCP_PORT": 
+                mTcpPort = Integer.parseInt(words[1].trim());
+                break;
+            case "MAX_CLIENTS": 
+                mMaxClients = Integer.parseInt(words[1].trim());
+                break;
+            default:  throw new UnknownKeyException("Cheie necunoscuta: " + words[0].trim());
+        }
+    }
+
+    public int getTcpPort() {
+        return mTcpPort;
+    }
+
+    public int getMaxClients() {
+        return mMaxClients;
     }
 }
