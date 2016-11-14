@@ -23,9 +23,9 @@ public class ClientPeer implements Serializable {
     public final String userName;
     public final String sender = null;
     
-    public ClientPeer(String userName, Socket inputSocket){
+    public ClientPeer(String userName, Socket socket){
         this.userName = userName; 
-        this.socket = inputSocket; 
+        this.socket = socket; 
     }
     
     
